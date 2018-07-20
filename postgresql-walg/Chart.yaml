@@ -1,0 +1,18 @@
+appVersion: 9.6.2
+description: Object-relational database management system (ORDBMS) with an emphasis
+  on extensibility and on standards-compliance.
+engine: gotpl
+home: https://www.postgresql.org/
+icon: https://www.postgresql.org/media/img/about/press/elephant.png
+keywords:
+- postgresql
+- postgres
+- database
+- wal-g
+- sql
+maintainers:
+- name: abuntakov
+name: postgresql-walg
+sources:
+- https://github.com/abuntakov/charts
+version: 0.1
