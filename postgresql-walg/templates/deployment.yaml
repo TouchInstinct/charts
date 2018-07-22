@@ -79,15 +79,15 @@ spec:
               name: {{ template "postgresql.secretName" . }}
               key: s3-secret-key
         - name: WALG_S3_ENDPOINT
-          value: {{ .Values.backup.s3.endpoint }}
+          value: {{ .Values.backup.s3.endpoint | quote }}
         - name: WALG_S3_PREFIX
-          value: {{ .Values.backup.s3.prefix }}
+          value: {{ .Values.backup.s3.prefix | quote }}
         - name: WALG_AWS_REGION
           value: {{ default "us-west-2" .Values.backup.s3.region | quote }}
         - name: POSTGRES_MODE
           value: {{ default "backup" .Values.backup.mode }}
         - name: WALG_DELETE_RETAIN
-          value: {{ default "15" .Values.backup.deleteRetain }}
+          value: {{ default "15" .Values.backup.deleteRetain | quote }}
         - name: WALG_BASE_BACKUP_IN
           value: {{ default "0 4 * * *" .Values.backup.baseBackupIn | quote }}
         {{- end -}}
