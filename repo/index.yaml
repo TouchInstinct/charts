@@ -2,7 +2,29 @@ apiVersion: v1
 entries:
   postgresql-walg:
   - appVersion: 9.6.2
-    created: 2018-07-22T21:29:22.832327715+03:00
+    created: 2018-07-22T22:33:25.509063752+03:00
+    description: Object-relational database management system (ORDBMS) with an emphasis
+      on extensibility and on standards-compliance.
+    digest: 9f1250ef0d4389b308b5cbc2311adb72f0adec79bff2660f22e44cf0016e31d6
+    engine: gotpl
+    home: https://www.postgresql.org/
+    icon: https://www.postgresql.org/media/img/about/press/elephant.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - wal-g
+    - sql
+    maintainers:
+    - name: abuntakov
+    name: postgresql-walg
+    sources:
+    - https://github.com/abuntakov/charts
+    urls:
+    - postgresql-walg-0.2.tgz
+    version: "0.2"
+  - appVersion: 9.6.2
+    created: 2018-07-22T22:33:25.508545712+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: dada81ae3eeaf1057b18735adf281d4ba24506f6215368f99d5a4e47fb60e250
@@ -23,4 +45,4 @@ entries:
     urls:
     - postgresql-walg-0.1.tgz
     version: "0.1"
-generated: 2018-07-22T21:29:22.831614804+03:00
+generated: 2018-07-22T22:33:25.50749413+03:00
