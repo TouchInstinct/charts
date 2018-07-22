@@ -83,11 +83,11 @@ spec:
         - name: WALG_S3_PREFIX
           value: {{ .Values.backup.s3.prefix }}
         - name: WALG_AWS_REGION
-          value: {{ default "us-west-2" .Values.backup.s3.region }}
+          value: {{ default "us-west-2" .Values.backup.s3.region | quote }}
         - name: POSTGRES_MODE
           value: {{ default "backup" .Values.backup.mode }}
         - name: WALG_DELETE_RETAIN
-          value: {{ default "25" .Values.backup.deleteRetain }}
+          value: {{ default "15" .Values.backup.deleteRetain }}
         - name: WALG_BASE_BACKUP_IN
           value: {{ default "0 4 * * *" .Values.backup.baseBackupIn | quote }}
         {{- end -}}

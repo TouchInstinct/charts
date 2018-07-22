@@ -146,10 +146,13 @@ podAnnotations: {}
 backup:
   enabled: false
   s3:
-#    accessKey: 
-#    secretKey: 
+#    accessKey:
+#    secretKey:
+#    endpoint: http+path://s3-us-west-2.amazonaws.com:80
+#    prefix: s3://my-backup/my-db
+#    region: us-west-2
   config:
-    walLevel: replica 
+    walLevel: replica
     archiveMode: on
     archiveCommand: "'envdir /etc/wal-e.d/env wal-e wal-push %p'"
     archiveTimeout: 60
