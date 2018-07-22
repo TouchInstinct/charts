@@ -68,12 +68,12 @@ spec:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         {{- if .Values.backup.enabled }}
-        - name: WALG_AWS_ACCESS_KEY_ID
+        - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
               name: {{ template "postgresql.secretName" . }}
               key: s3-access-key
-        - name: WALG_AWS_SECRET_ACCESS_KEY
+        - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               name: {{ template "postgresql.secretName" . }}
@@ -82,7 +82,7 @@ spec:
           value: {{ .Values.backup.s3.endpoint | quote }}
         - name: WALG_S3_PREFIX
           value: {{ .Values.backup.s3.prefix | quote }}
-        - name: WALG_AWS_REGION
+        - name: AWS_REGION
           value: {{ default "us-west-2" .Values.backup.s3.region | quote }}
         - name: POSTGRES_MODE
           value: {{ default "backup" .Values.backup.mode }}
