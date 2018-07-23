@@ -2,7 +2,29 @@ apiVersion: v1
 entries:
   postgresql-walg:
   - appVersion: 9.6.2
-    created: 2018-07-23T00:38:42.650121124+03:00
+    created: 2018-07-23T19:58:02.773769211+03:00
+    description: Object-relational database management system (ORDBMS) with an emphasis
+      on extensibility and on standards-compliance.
+    digest: 7898f12fa576cb1f5e69ee044dea2ef04759e9d87b55d9876089c1407f3c1fb9
+    engine: gotpl
+    home: https://www.postgresql.org/
+    icon: https://www.postgresql.org/media/img/about/press/elephant.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - wal-g
+    - sql
+    maintainers:
+    - name: abuntakov
+    name: postgresql-walg
+    sources:
+    - https://github.com/abuntakov/charts
+    urls:
+    - postgresql-walg-0.7.tgz
+    version: "0.7"
+  - appVersion: 9.6.2
+    created: 2018-07-23T19:58:02.773372856+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 82b35bc0ce50f933a216ca11aba2d488c0af5d802558226e072de685aba4b61f
@@ -24,7 +46,7 @@ entries:
     - postgresql-walg-0.6.tgz
     version: "0.6"
   - appVersion: 9.6.2
-    created: 2018-07-23T00:38:42.649588847+03:00
+    created: 2018-07-23T19:58:02.773015082+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: fae61075ab1ea4200b65f52c6f33087260a9944a3f598375197a4616750a4fc4
@@ -46,7 +68,7 @@ entries:
     - postgresql-walg-0.5.tgz
     version: "0.5"
   - appVersion: 9.6.2
-    created: 2018-07-23T00:38:42.649069726+03:00
+    created: 2018-07-23T19:58:02.772665721+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: abc5f306293b548ed91d9c962d9bb18d5413fdc8a4803c9effdb8377cfa5c35b
@@ -68,7 +90,7 @@ entries:
     - postgresql-walg-0.4.tgz
     version: "0.4"
   - appVersion: 9.6.2
-    created: 2018-07-23T00:38:42.648534686+03:00
+    created: 2018-07-23T19:58:02.772290305+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: f61cf8b88b303f6e01da222bbc6d4f3375b1807195d4daf0f6c9fb3cfc4a8401
@@ -90,7 +112,7 @@ entries:
     - postgresql-walg-0.3.tgz
     version: "0.3"
   - appVersion: 9.6.2
-    created: 2018-07-23T00:38:42.647999867+03:00
+    created: 2018-07-23T19:58:02.771935032+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 9f1250ef0d4389b308b5cbc2311adb72f0adec79bff2660f22e44cf0016e31d6
@@ -112,7 +134,7 @@ entries:
     - postgresql-walg-0.2.tgz
     version: "0.2"
   - appVersion: 9.6.2
-    created: 2018-07-23T00:38:42.647466171+03:00
+    created: 2018-07-23T19:58:02.771556758+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: dada81ae3eeaf1057b18735adf281d4ba24506f6215368f99d5a4e47fb60e250
@@ -133,4 +155,4 @@ entries:
     urls:
     - postgresql-walg-0.1.tgz
     version: "0.1"
-generated: 2018-07-23T00:38:42.646740155+03:00
+generated: 2018-07-23T19:58:02.771094344+03:00

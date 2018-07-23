@@ -154,7 +154,7 @@ backup:
   config:
     walLevel: replica
     archiveMode: on
-    archiveCommand: "'envdir /etc/wal-g.d/env wal-g wal-push %p'"
+    archiveCommand: "'/usr/bin/envdir /etc/wal-g.d/env /usr/bin/wal-g wal-push %p'"
     archiveTimeout: 60
     maxWalSenders: 4
     walWriterDelay: 200ms       # 1-10000 milliseconds
