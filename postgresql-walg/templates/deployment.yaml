@@ -46,6 +46,69 @@ spec:
       {{- if .Values.schedulerName }}
       schedulerName: "{{ .Values.schedulerName }}"
       {{- end }}
+      {{- if .Values.backup.recovery }}
+      initContainers:
+      - name: "{{ template "postgresql.fullname" . }}-init"
+        image: "{{ .Values.image }}:{{ .Values.imageTag }}"
+        imagePullPolicy: {{ default "" .Values.imagePullPolicy | quote }}
+        command: ["./entrypoint.sh", "postgres"]
+        args:
+          {{- range $key, $value := $pgConfig }}
+          - -c
+          - "{{ $key | snakecase }}={{ $value }}"
+          {{- end }}
+        env:
+        - name: POSTGRES_USER
+          value: {{ default "postgres" .Values.postgresUser | quote }}
+          # Required for pg_isready in the health probes.
+        - name: PGUSER
+          value: {{ default "postgres" .Values.postgresUser | quote }}
+        - name: POSTGRES_DB
+          value: {{ default "" .Values.postgresDatabase | quote }}
+        - name: POSTGRES_INITDB_ARGS
+          value: {{ default "" .Values.postgresInitdbArgs | quote }}
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "postgresql.secretName" . }}
+              key: s3-access-key
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "postgresql.secretName" . }}
+              key: s3-secret-key
+        - name: AWS_ENDPOINT
+          value: {{ .Values.backup.s3.endpoint | quote }}
+        - name: WALE_S3_PREFIX
+          value: {{ .Values.backup.s3.prefix | quote }}
+        - name: AWS_REGION
+          value: {{ default "us-west-2" .Values.backup.s3.region | quote }}
+        - name: POSTGRES_MODE
+          value: recovery
+        {{- if .Values.usePasswordFile }}
+        - name: POSTGRES_PASSWORD_FILE
+          value: /conf/postgres-password
+        {{- else }}
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "postgresql.secretName" . }}
+              key: postgres-password
+        {{- end }}
+        - name: POD_IP
+          valueFrom: { fieldRef: { fieldPath: status.podIP } }
+        volumeMounts:
+        - name: data
+          mountPath: {{ .Values.persistence.mountPath }}
+          subPath: {{ .Values.persistence.subPath }}
+        {{- if .Values.usePasswordFile }}
+        - name: password-file
+          mountPath: /conf
+          readOnly: true
+        {{- end }}
+      {{- end }}
       containers:
       - name: {{ template "postgresql.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
@@ -85,8 +148,6 @@ spec:
           value: {{ .Values.backup.s3.prefix | quote }}
         - name: AWS_REGION
           value: {{ default "us-west-2" .Values.backup.s3.region | quote }}
-        - name: POSTGRES_MODE
-          value: {{ default "backup" .Values.backup.mode }}
         - name: WALG_DELETE_RETAIN
           value: {{ default "15" .Values.backup.deleteRetain | quote }}
         - name: WALG_BASE_BACKUP_IN

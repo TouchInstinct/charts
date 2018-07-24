@@ -145,6 +145,7 @@ podAnnotations: {}
 
 backup:
   enabled: false
+  recovery: false
   s3:
 #    accessKey:
 #    secretKey:
