@@ -50,6 +50,7 @@ spec:
       - name: {{ template "postgresql.fullname" . }}
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
         imagePullPolicy: {{ default "" .Values.imagePullPolicy | quote }}
+        command: ["./entrypoint.sh", "postgres"]
         args:
           {{- range $key, $value := $pgConfig }}
           - -c
@@ -78,9 +79,9 @@ spec:
             secretKeyRef:
               name: {{ template "postgresql.secretName" . }}
               key: s3-secret-key
-        - name: WALG_S3_ENDPOINT
+        - name: AWS_ENDPOINT
           value: {{ .Values.backup.s3.endpoint | quote }}
-        - name: WALG_S3_PREFIX
+        - name: WALE_S3_PREFIX
           value: {{ .Values.backup.s3.prefix | quote }}
         - name: AWS_REGION
           value: {{ default "us-west-2" .Values.backup.s3.region | quote }}
