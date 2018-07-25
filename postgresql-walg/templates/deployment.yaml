@@ -46,7 +46,7 @@ spec:
       {{- if .Values.schedulerName }}
       schedulerName: "{{ .Values.schedulerName }}"
       {{- end }}
-      {{- if .Values.backup.recovery }}
+      {{- if .Values.recovery.enabled }}
       initContainers:
       - name: "{{ template "postgresql.fullname" . }}-init"
         image: "{{ .Values.image }}:{{ .Values.imageTag }}"
@@ -69,6 +69,8 @@ spec:
           value: {{ default "" .Values.postgresInitdbArgs | quote }}
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
+        - name: WALG_RECOVERY_TIMESTAMP
+          value:  {{ default "" .Values.recovery.timestamp | quote }}
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:

@@ -143,9 +143,12 @@ probes:
 deploymentAnnotations: {}
 podAnnotations: {}
 
+recovery:
+  enabled: false
+#  timestamp: "2018-07-25 23:05:10"
+
 backup:
   enabled: false
-  recovery: false
   s3:
 #    accessKey:
 #    secretKey:
