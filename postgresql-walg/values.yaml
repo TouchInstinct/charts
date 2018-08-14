@@ -149,6 +149,11 @@ recovery:
 
 backup:
   enabled: false
+  # backup - полный бекап базы по крону
+  # wal - полный бекап базы по крону + ежеминутный бекап транзакций
+  mode: backup
+  deleteRetain: 15
+  baseBackupIn: "0 4 * * *"
   s3:
 #    accessKey:
 #    secretKey:

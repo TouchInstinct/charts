@@ -1,5 +1,5 @@
 {{- $pgConfig := default dict .Values.postgresConfig -}}
-{{- if .Values.backup.enabled }}
+{{- if (.Values.backup.enabled) and eq .Values.backup.mode "wal"  }}
   {{- $pgConfig := merge $pgConfig (default dict .Values.backup.config) -}}
 {{- end -}}
 
@@ -134,6 +134,8 @@ spec:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         {{- if .Values.backup.enabled }}
+        - name: POSTGRES_MODE
+          value: backup
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
