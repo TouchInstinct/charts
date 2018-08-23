@@ -1,5 +1,5 @@
 {{- $pgConfig := default dict .Values.postgresConfig -}}
-{{- if (.Values.backup.enabled) and eq .Values.backup.mode "wal"  }}
+{{- if  and (.Values.backup.enabled) (eq .Values.backup.mode "wal")  }}
   {{- $pgConfig := merge $pgConfig (default dict .Values.backup.config) -}}
 {{- end -}}
 
