@@ -15,4 +15,4 @@ maintainers:
 name: postgresql-walg
 sources:
 - https://github.com/abuntakov/charts
-version: "1.3"
+version: "1.0"

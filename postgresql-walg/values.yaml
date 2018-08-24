@@ -3,7 +3,7 @@ image: "postgresql-walg"
 ## postgres image version
 ## ref: https://hub.docker.com/r/library/postgres/tags/
 ##
-imageTag: "9.6_0.1.10"
+imageTag: "9.6_0.1.11"
 
 ## Specify a imagePullPolicy
 ## 'Always' if imageTag is 'latest', else set to 'IfNotPresent'
