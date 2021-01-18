@@ -1,0 +1,5 @@
+dependencies:
+- name: zookeeper
+  version: 2.1.6
+  repository: https://raw.githubusercontent.com/TouchInstinct/charts/master/repo
+  condition: kafka.zookeeper.enabled,zookeeper.enabled
