@@ -1,0 +1,6 @@
+dependencies:
+- name: zookeeper
+  repository: https://raw.githubusercontent.com/TouchInstinct/charts/master/repo
+  version: 2.1.6
+digest: sha256:448e54e3dc51541baf93b47c36f301ac1a7d70e32592f79bce6a1df12734e21a
+generated: 2021-01-18T09:52:44.757539071+03:00
