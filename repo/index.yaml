@@ -1,8 +1,31 @@
 apiVersion: v1
 entries:
+  kafka:
+  - apiVersion: v1
+    appVersion: 5.0.1
+    created: 2021-01-18T09:25:35.113012448+03:00
+    deprecated: true
+    description: DEPRECATED Apache Kafka is publish-subscribe messaging rethought
+      as a distributed commit log.
+    digest: 2275712600925b1981793d55eff86899c7c971c796b6970f2898710f5a423bdc
+    home: https://kafka.apache.org/
+    icon: https://kafka.apache.org/images/logo.png
+    keywords:
+    - kafka
+    - zookeeper
+    - kafka statefulset
+    name: kafka
+    sources:
+    - https://github.com/kubernetes/charts/tree/master/incubator/zookeeper
+    - https://github.com/Yolean/kubernetes-kafka
+    - https://github.com/confluentinc/cp-docker-images
+    - https://github.com/apache/kafka
+    urls:
+    - kafka-0.21.5.tgz
+    version: 0.21.5
   postgresql-walg:
   - appVersion: 9.6.2
-    created: 2018-08-24T12:57:26.36782999+03:00
+    created: 2021-01-18T09:25:35.113455356+03:00
     description: Object-relational database management system (ORDBMS) with an emphasis
       on extensibility and on standards-compliance.
     digest: 231bea33dd0fc00f9257aa50b337877cc4a802aa5825e0a5d0bfbccd11ec5113
@@ -23,4 +46,22 @@ entries:
     urls:
     - postgresql-walg-1.0.tgz
     version: "1.0"
-generated: 2018-08-24T12:57:26.367331033+03:00
+  zookeeper:
+  - apiVersion: v1
+    appVersion: 3.5.5
+    created: 2021-01-18T09:25:35.113927635+03:00
+    deprecated: true
+    description: DEPRECATED Centralized service for maintaining configuration information,
+      naming, providing distributed synchronization, and providing group services.
+    digest: 63ed4ca791830115f7eafa057706e04423c2751ff62afeaa8329199095a67a07
+    home: https://zookeeper.apache.org/
+    icon: https://zookeeper.apache.org/images/zookeeper_small.gif
+    kubeVersion: ^1.10.0-0
+    name: zookeeper
+    sources:
+    - https://github.com/apache/zookeeper
+    - https://github.com/kubernetes/contrib/tree/master/statefulsets/zookeeper
+    urls:
+    - zookeeper-2.1.6.tgz
+    version: 2.1.6
+generated: 2021-01-18T09:25:35.111872926+03:00
