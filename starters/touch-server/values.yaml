@@ -47,7 +47,7 @@ db:
   create: true
   copy: false
 
-pod:
+app:
   port: 8080
 
 service:

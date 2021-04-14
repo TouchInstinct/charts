@@ -62,7 +62,7 @@ spec:
           env: []
           ports:
             - name: http
-              containerPort: {{ .Values.pod.port }}
+              containerPort: {{ .Values.app.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
