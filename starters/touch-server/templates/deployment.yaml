@@ -1,0 +1,92 @@
+{{- $dbName := include "<CHARTNAME>.db.name" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "<CHARTNAME>.fullname" . }}
+  labels:
+    {{- include "<CHARTNAME>.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "<CHARTNAME>.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "<CHARTNAME>.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "<CHARTNAME>.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: "{{ .Chart.Name }}-info"
+          image: "busybox"
+          command:
+            - 'echo hello'
+        {{- if and .Values.db .Values.db.create }}
+        - name: "{{ .Chart.Name }}-create-db"
+          image: {{ .Values.db.image }}
+          command:
+            - "sh"
+            - "-c"
+            - "create {{ $dbName }}"
+          env:
+            {{- include "<CHARTNAME>.db.environments" . | indent 12 }}
+        {{- end }}
+        {{- if and .Values.db .Values.db.copy }}
+        - name: "{{ .Chart.Name }}-copy-db"
+          image: {{ .Values.db.image }}
+          command:
+            - "sh"
+            - "-c"
+            - "copy {{ .Values.db.name }} {{ $dbName }}"
+          env:
+            {{- include "<CHARTNAME>.db.environments" . | indent 12 }}
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env: []
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: "{{ .Values.probe.path }}"
+              port: http
+            initialDelaySeconds: {{ .Values.probe.delay }}
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: "{{ .Values.probe.path }}"
+              port: http
+            initialDelaySeconds: {{ .Values.probe.delay }}
+            periodSeconds: 60
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
