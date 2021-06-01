@@ -57,10 +57,6 @@ app.kubernetes.io/releaseName: {{ .Values.releaseName }}
 {{- if .Values.component }}
 app.kubernetes.io/component: {{ .Values.component }}
 {{- end }}
-{{- if and .Values.db .Values.db.platform }}
-app.kubernetes.io/database: {{ .Values.db.platform.name }}
-app.kubernetes.io/database/version: {{ .Values.db.platform.version | quote }}
-{{- end }}
 {{- end }}
 
 {{/*
@@ -74,26 +70,3 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-{{/*
-Create db environments
-*/}}
-{{- define "<CHARTNAME>.db.environments" -}}
-{{- if eq .Values.db.platform.name "postgres" }}
-- name: PGPASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: "postgres{{ .Values.db.platform.version }}-postgresql"
-      key: postgres-password
-- name: PGHOST
-  value: "postgres{{ .Values.db.platform.version }}"
-- name: PGUSER
-  value: "postgres"
-{{- end }}
-{{- end }}
-
-{{/*
-Get db name
-*/}}
-{{- define "<CHARTNAME>.db.name" -}}
-{{ .Values.db.name }}{{- if .Values.releaseName}}--{{ .Values.releaseName }}{{- end }}
-{{- end }}
