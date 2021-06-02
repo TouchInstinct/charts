@@ -36,6 +36,7 @@ Common labels
 {{- define "<CHARTNAME>.labels" -}}
 helm.sh/chart: {{ include "<CHARTNAME>.chart" . }}
 {{ include "<CHARTNAME>.selectorLabels" . }}
+{{ include "<CHARTNAME>.touchinLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -96,4 +97,15 @@ Get db name
 */}}
 {{- define "<CHARTNAME>.db.name" -}}
 {{ .Values.db.name }}{{- if .Values.releaseName}}--{{ .Values.releaseName }}{{- end }}
+{{- end }}
+
+{{/*
+Touchin labels
+*/}}
+{{- define "<CHARTNAME>.touchinLabels" -}}
+{{- if .Values.origin.pullRequestNumber }}
+touchin.ru/origin: pr:{{ .Values.origin.pullRequestNumber }}
+{{- else if .Values.origin.releaseBranch }}
+touchin.ru/origin: release:{{ .Values.origin.releaseBranch }}
+{{- end }}
 {{- end }}

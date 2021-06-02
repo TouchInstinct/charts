@@ -36,6 +36,7 @@ Common labels
 {{- define "<CHARTNAME>.labels" -}}
 helm.sh/chart: {{ include "<CHARTNAME>.chart" . }}
 {{ include "<CHARTNAME>.selectorLabels" . }}
+{{ include "<CHARTNAME>.touchinLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -67,5 +68,16 @@ Create the name of the service account to use
 {{- default (include "<CHARTNAME>.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Touchin labels
+*/}}
+{{- define "<CHARTNAME>.touchinLabels" -}}
+{{- if .Values.origin.pullRequestNumber }}
+touchin.ru/origin: pr:{{ .Values.origin.pullRequestNumber }}
+{{- else if .Values.origin.releaseBranch }}
+touchin.ru/origin: release:{{ .Values.origin.releaseBranch }}
 {{- end }}
 {{- end }}
