@@ -75,9 +75,9 @@ Create the name of the service account to use
 Touchin labels
 */}}
 {{- define "<CHARTNAME>.touchinLabels" -}}
-{{- if .Values.docs.meta.pullRequestNumber }}
-touchin.ru/origin: pr:{{ .Values.docs.meta.pullRequestNumber }}
-{{- else if .Values.docs.meta.releaseBranch }}
-touchin.ru/origin: release:{{ .Values.docs.meta.releaseBranch }}
+{{- if .Values.origin.pullRequestNumber }}
+touchin.ru/origin: pr:{{ .Values.origin.pullRequestNumber }}
+{{- else if .Values.origin.releaseBranch }}
+touchin.ru/origin: release:{{ .Values.origin.releaseBranch }}
 {{- end }}
 {{- end }}
