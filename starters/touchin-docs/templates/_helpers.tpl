@@ -76,8 +76,8 @@ Touchin labels
 */}}
 {{- define "<CHARTNAME>.touchinLabels" -}}
 {{- if .Values.origin.pullRequestNumber }}
-touchin.ru/origin: pr:{{ .Values.origin.pullRequestNumber }}
+touchin.ru/origin: pr__{{ .Values.origin.pullRequestNumber }}
 {{- else if .Values.origin.releaseBranch }}
-touchin.ru/origin: release:{{ .Values.origin.releaseBranch }}
+touchin.ru/origin: release__{{ .Values.origin.releaseBranch }}
 {{- end }}
 {{- end }}

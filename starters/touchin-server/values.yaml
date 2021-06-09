@@ -50,6 +50,10 @@ db:
 app:
   port: 8080
 
+origin:
+  releaseBranch: ""
+  pullRequestNumber: ""
+
 service:
   type: ClusterIP
   port: 80
