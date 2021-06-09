@@ -40,6 +40,10 @@ securityContext: {}
 app:
   port: 80
 
+origin:
+  releaseBranch: ""
+  pullRequestNumber: ""
+
 service:
   type: ClusterIP
   port: 80
