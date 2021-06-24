@@ -38,20 +38,19 @@ spec:
         {{- if and .Values.db .Values.db.create }}
         - name: "{{ .Chart.Name }}-create-db"
           image: {{ .Values.db.image }}
-          command:
-            - "sh"
-            - "-c"
-            - "create {{ $dbName }}"
+          args:
+            - "create"
+            - "{{ $dbName }}"
           env:
             {{- include "<CHARTNAME>.db.environments" . | indent 12 }}
         {{- end }}
         {{- if and .Values.db .Values.db.copy }}
         - name: "{{ .Chart.Name }}-copy-db"
           image: {{ .Values.db.image }}
-          command:
-            - "sh"
-            - "-c"
-            - "copy {{ .Values.db.name }} {{ $dbName }}"
+          args:
+            - "copy"
+            - "{{ .Values.db.name }}"
+            - "{{ $dbName }}"
           env:
             {{- include "<CHARTNAME>.db.environments" . | indent 12 }}
         {{- end }}
