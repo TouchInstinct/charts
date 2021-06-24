@@ -60,7 +60,7 @@ app.kubernetes.io/component: {{ .Values.component }}
 {{- end }}
 {{- if and .Values.db .Values.db.platform }}
 app.kubernetes.io/database: {{ .Values.db.platform.name }}
-app.kubernetes.io/database/version: {{ .Values.db.platform.version | quote }}
+app.kubernetes.io/databaseVersion: {{ .Values.db.platform.version | quote }}
 {{- end }}
 {{- end }}
 
