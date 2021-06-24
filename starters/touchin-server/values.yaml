@@ -40,7 +40,7 @@ securityContext: {}
 db:
   enabled: true
   name: <CHARTNAME>
-  image: dhub.touchin.ru/touchin/db-init:postgres12
+  image: dhub.touchin.ru/common/db-init:postgres12
   platform:
     name: postgres
     version: 12
