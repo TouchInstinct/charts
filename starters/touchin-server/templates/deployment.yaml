@@ -69,7 +69,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: "postgres12-{{ .Release.Namespace }}"
-                  key: postgres-password
+                  key: postgresql-password
             - name: spring_datasource_url
               value: "jdbc:postgresql://postgres12-{{ .Release.Namespace }}:5432/{{ .Values.db.name }}"
             - name: spring_datasource_username
