@@ -83,8 +83,8 @@ Create db environments
 - name: PGPASSWORD
   valueFrom:
     secretKeyRef:
-      name: "postgres{{ .Values.db.platform.version }}-postgresql"
-      key: postgres-password
+      name: "postgres{{ .Values.db.platform.version }}-{{ .Release.Namespace }}"
+      key: postgresql-password
 - name: PGHOST
   value: "postgres{{ .Values.db.platform.version }}"
 - name: PGUSER
