@@ -49,6 +49,11 @@ db:
 
 app:
   port: 8080
+  javaOpts: "-Xmx256m"
+
+metrics:
+  enabled: true
+  elasticSearchHost: http://app.elastic.ti:9200
 
 origin:
   releaseBranch: ""
