@@ -86,7 +86,7 @@ Create db environments
       name: "postgres{{ .Values.db.platform.version }}-{{ .Release.Namespace }}"
       key: postgresql-password
 - name: PGHOST
-  value: "postgres{{ .Values.db.platform.version }}"
+  value: "postgres{{ .Values.db.platform.version }}-{{ .Release.Namespace }}"
 - name: PGUSER
   value: "postgres"
 {{- end }}
