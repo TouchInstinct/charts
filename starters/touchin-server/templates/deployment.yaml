@@ -32,7 +32,9 @@ spec:
         - name: "{{ .Chart.Name }}-info"
           image: "busybox"
           command:
-            - 'echo hello'
+            - "sh"
+            - "-c"
+            - "echo hello"
         {{- if and .Values.db .Values.db.create }}
         - name: "{{ .Chart.Name }}-create-db"
           image: {{ .Values.db.image }}
