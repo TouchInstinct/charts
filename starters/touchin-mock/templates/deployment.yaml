@@ -61,23 +61,19 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: JAVA_OPTS
-              value: "{{ .Values.app.javaOpts }}"
             - name: APP_PROFILE
               value: "{{ .Values.profile }}"
-            - name: spring_datasource_password
+            - name: postgres__password
               valueFrom:
                 secretKeyRef:
                   name: "postgres12-{{ .Release.Namespace }}"
                   key: postgresql-password
-            - name: spring_datasource_url
-              value: "jdbc:postgresql://postgres12-{{ .Release.Namespace }}:5432/{{ .Values.db.name }}"
-            - name: spring_datasource_username
+            - name: postgres__host
+              value: "postgres12-{{ .Release.Namespace }}"
+            - name: postgres__database
+              value: "{{ .Values.db.name }}"
+            - name: postgres__user
               value: "postgres"
-            - name: "management_metrics_export_elastic_enabled"
-              value: "{{ .Values.metrics.enabled }}"
-            - name: "management_metrics_export_elastic_host"
-              value: "{{ .Values.metrics.elasticSearchHost }}"
           ports:
             - name: http
               containerPort: {{ .Values.app.port }}
