@@ -71,7 +71,7 @@ spec:
                   name: "postgres12-{{ .Release.Namespace }}"
                   key: postgresql-password
             - name: spring_datasource_url
-              value: "jdbc:postgresql://postgres12-{{ .Release.Namespace }}:5432/{{ .Values.db.name }}"
+              value: "jdbc:postgresql://postgres12-{{ .Release.Namespace }}:5432/{{ $dbName }}"
             - name: spring_datasource_username
               value: "postgres"
             - name: "management_metrics_export_elastic_enabled"

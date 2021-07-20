@@ -96,7 +96,7 @@ Create db environments
 Get db name
 */}}
 {{- define "<CHARTNAME>.db.name" -}}
-{{ .Values.db.name }}{{- if .Values.releaseName}}--{{ .Values.releaseName }}{{- end }}
+{{ .Values.db.name }}{{- if .Values.releaseName }}--{{ .Values.releaseName }}{{- end }}
 {{- end }}
 
 {{/*
