@@ -50,6 +50,7 @@ db:
 app:
   port: 8080
   javaOpts: "-Xmx256m"
+  # baseDomain: ""
 
 metrics:
   enabled: true
