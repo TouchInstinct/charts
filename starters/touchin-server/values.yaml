@@ -52,6 +52,11 @@ app:
   javaOpts: "-Xmx256m"
   # baseDomain: ""
 
+log:
+  type: "json"
+  provider: "java"
+  consumedBy: "filebeat"
+
 metrics:
   enabled: true
   elasticSearchHost: http://app.elastic.ti:9200

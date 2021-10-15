@@ -108,4 +108,9 @@ touchin.ru/origin: pr__{{ .Values.origin.pullRequestNumber }}
 {{- else if .Values.origin.releaseBranch }}
 touchin.ru/origin: release__{{ .Values.origin.releaseBranch }}
 {{- end }}
+{{- if .Values.log }}
+log.type: {{ .Values.log.type }}
+log.provider: {{ .Values.log.provider }}
+log.consumed-by: {{ .Values.log.consumedBy }}
+{{- end }}
 {{- end }}
