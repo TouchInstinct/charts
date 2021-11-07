@@ -103,6 +103,7 @@ Get db name
 Touchin labels
 */}}
 {{- define "<CHARTNAME>.touchinLabels" -}}
+app: {{ include "<CHARTNAME>.name" . }}
 {{- if .Values.origin.pullRequestNumber }}
 touchin.ru/origin: pr__{{ .Values.origin.pullRequestNumber }}
 {{- else if .Values.origin.releaseBranch }}
