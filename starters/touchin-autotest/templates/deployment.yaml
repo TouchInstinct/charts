@@ -1,0 +1,124 @@
+{{- $dbName := include "<CHARTNAME>.db.name" . -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "<CHARTNAME>.fullname" . }}
+  labels:
+    {{- include "<CHARTNAME>.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "<CHARTNAME>.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "<CHARTNAME>.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "<CHARTNAME>.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: "{{ .Chart.Name }}-info"
+          image: "busybox"
+          command:
+            - "sh"
+            - "-c"
+            - "echo hello"
+        {{- if and .Values.db .Values.db.create }}
+        - name: "{{ .Chart.Name }}-create-db"
+          image: {{ .Values.db.image }}
+          args:
+            - "create"
+            - "{{ $dbName }}"
+          env:
+            {{- include "<CHARTNAME>.db.environments" . | indent 12 }}
+        {{- end }}
+        {{- if and .Values.db .Values.db.copy }}
+        - name: "{{ .Chart.Name }}-copy-db"
+          image: {{ .Values.db.image }}
+          args:
+            - "copy"
+            - "{{ .Values.db.name }}"
+            - "{{ $dbName }}"
+          env:
+            {{- include "<CHARTNAME>.db.environments" . | indent 12 }}
+        {{- end }}
+      containers:
+        - name: "{{ .Chart.Name }}-api"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AUTOTEST_DB_HOST
+              value: "postgres12-{{ .Release.Namespace }}:5432"
+            - name: AUTOTEST_DB_USER
+              value: postgres
+            - name: AUTOTEST_DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: "postgres12-{{ .Release.Namespace }}"
+                  key: postgresql-password
+            - name: AUTOTEST_DB_NAME
+              value: {{ $dbName }}
+          command: [ "pipenv" ]
+          args: [ "run", "gunicorn", "--bind",  "0.0.0.0:5000", "wsgi:app" ]
+          ports:
+            - name: http
+              containerPort: {{ .Values.app.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: "{{ .Chart.Name }}-web"
+          image: "{{ .Values.image.web }}"
+          imagePullPolicy: Always
+          env:
+            - name: APP_SERVER
+              value: "http://localhost:5000/api/"
+            - name: APP_HOST
+              value: {{ .Values.server.url }}
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 8080
+        - name: "{{ .Chart.Name }}-sso-proxy"
+          image: "{{ .Values.image.ssoProxy }}"
+          imagePullPolicy: Always
+          env:
+            - name: SSO_PROXY_HOST
+              value: {{ .Values.server.url }}
+            - name: SSO_PROXY_APP_HOST
+              value: localhost
+            - name: SSO_PROXY_APP_PORT
+              value: "8080"
+            - name: SSO_PROXY_CAS_HOST
+              value: {{ .Values.sso.cas.host }}
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 80
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

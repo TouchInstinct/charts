@@ -1,0 +1,59 @@
+{{- $dbName := include "<CHARTNAME>.db.name" . -}}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ include "<CHARTNAME>.fullname" . }}
+  labels:
+    {{- include "<CHARTNAME>.labels" . | nindent 4 }}
+spec:
+  schedule: "{{ .Values.cronjob.schedule }}"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          restartPolicy: Never
+          containers:
+            - name: "{{ .Chart.Name }}-cronjob"
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              env:
+                - name: AUTOTEST_DB_HOST
+                  value: "postgres12-{{ .Release.Namespace }}:5432"
+                - name: AUTOTEST_DB_USER
+                  value: postgres
+                - name: AUTOTEST_DB_PASS
+                  valueFrom:
+                    secretKeyRef:
+                      name: "postgres-{{ .Release.Namespace }}"
+                      key: postgresql-password
+                - name: AUTOTEST_DB_NAME
+                  value: {{ $dbName }}
+                - name: AUTOTEST_HOST
+                  value: {{ .Values.autotest.host }}
+                - name: AUTOTEST_SPEC_URL
+                  value: {{ .Values.autotest.specUrl }}
+                - name: AUTOTEST_REPORTS_HOST
+                  value: https://{{ .Values.server.url }}/reports/
+                - name: AUTOTEST_START_PHONE
+                  value: "{{ .Values.autotest.startPhone }}"
+                - name: AUTOTEST_SAVE_RESULT
+                  value: "yes"
+              resources:
+{{ toYaml .Values.resources | indent 16 }}
+    {{- with .Values.nodeSelector }}
+          nodeSelector:
+{{ toYaml . | indent 12 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+          affinity:
+{{ toYaml . | indent 12 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+          tolerations:
+{{ toYaml . | indent 12 }}
+    {{- end }}
