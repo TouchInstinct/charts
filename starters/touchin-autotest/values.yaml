@@ -7,6 +7,8 @@ replicaCount: 1
 image:
   repository: nginx
   pullPolicy: IfNotPresent
+  web: dhub.touchin.ru/touchin/autotest-web
+  ssoProxy: dhub.touchin.ru/touchin/sso-proxy
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
