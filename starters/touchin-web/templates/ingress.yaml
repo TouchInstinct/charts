@@ -34,7 +34,8 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.ingress.api.service }}
+                name: {{ .Values.ingress.api.service }}{{- if .Values.releaseName }}--{{ .Values.releaseName }}{{- end }}
+
                 port:
                   number: {{ .Values.ingress.api.port }}
           - path: {{ .Values.ingress.path }}
