@@ -69,12 +69,12 @@ spec:
             - name: spring_datasource_password
               valueFrom:
                 secretKeyRef:
-                  name: "postgres12-{{ .Release.Namespace }}"
+                  name: "{{- if .Values.db.secret }}{{ .Values.db.secret }}{{- else }}postgres12-{{ .Release.Namespace }}{{- end }}"
                   key: postgresql-password
             - name: spring_datasource_url
-              value: "jdbc:postgresql://postgres12-{{ .Release.Namespace }}:5432/{{ $dbName }}"
+              value: "jdbc:postgresql://{{- if .Values.db.host }}{{ .Values.db.host }}{{- else }}postgres12-{{ .Release.Namespace }}{{- end }}:5432/{{ $dbName }}
             - name: spring_datasource_username
-              value: "postgres"
+              value: "{{- if .Values.db.user }}{{ .Values.db.user }}{{- else }}postgres{{- end }}"
             - name: "management_metrics_export_elastic_enabled"
               value: "{{ .Values.metrics.enabled }}"
             - name: "management_metrics_export_elastic_host"
